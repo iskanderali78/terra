@@ -21,7 +21,13 @@ router.get('/', function(req, res, next) {
       var catalog = new catalogTable(result);
       var html = catalog.transformToHTML();
       console.log(html);
-      res.render('index', { title: 'Терра' , tabl: html});
+      var context = {
+          ready: "Example",
+          table: html
+      };
+      //res.render('index', { title: 'Терра' , tabl: html});
+      res.render('index.html', context);
+      //.view('layout',null,{layout: 'examp'});
   });
 });
 
