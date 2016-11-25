@@ -1,0 +1,13 @@
+{
+  "mongoose": {
+    "uri": "mongodb://localhost/terra",
+    "options": {
+      "server":
+      {
+        "socketOptions": {
+          "keepAlive": 1
+        }
+      }
+    }
+  }
+}
