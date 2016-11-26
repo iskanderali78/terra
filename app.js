@@ -15,15 +15,6 @@ var app = express();
 //app.set('views', path.join(__dirname, 'views'));
 //app.set('view engine', 'jade');
 
-//app.engine('html',cons.swig);
-//app.set('view engine', 'html');
-//app.set('views', path.join(__dirname, 'views'));
-
-//app.engine('handlebars', exphbs({defaultLayout: 'main'}));
-//app.set('view engine', 'handlebars');
-
-//app.set('view engine', 'handlebars');
-
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'html');
 app.set("view options", { layout: true });
@@ -55,7 +46,9 @@ app.use(function(err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
+  var stat = {error: err.status};
+  res.render('error.html',stat);
+  //res.render('error');
 });
 
 module.exports = app;

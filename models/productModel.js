@@ -8,7 +8,12 @@ var Product = new mongoose.Schema({
     category: String,
     status: String,
     price: Number,
-    image: String
+    image: String,
+    description: String,
+    producer: String,
+    size: String,
+    weight: Number,
+    country: String
 });
 
 module.exports = mongoose.model('Product', Product);

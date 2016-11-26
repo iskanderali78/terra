@@ -22,13 +22,22 @@ router.get('/', function(req, res, next) {
       var html = catalog.transformToHTML();
       console.log(html);
       var context = {
-          ready: "Example",
+          ready: "Каталог товаров",
           table: html
       };
       //res.render('index', { title: 'Терра' , tabl: html});
       res.render('index.html', context);
-      //.view('layout',null,{layout: 'examp'});
   });
+});
+
+router.get('/catalog/*', function(req, res, next) {
+
+    var arr = req.url.split('/');
+    var addr = arr[2];
+    var context = {
+        table: addr
+    };
+    res.render('information.html',context);
 });
 
 module.exports = router;
