@@ -2,22 +2,12 @@
  * Created by MASTER on 23.11.2016.
  */
 var mongoose = require('mongoose');
-//var Model = require('../models/productModel');
 
 var productController = function(productModel){
     this.pmodel = productModel;
 };
 
-//productController.prototype.findAll = function()
-//{
-//    var me = this;
-//    var answer = me.pmodel.findAll();
-//    console.log(answer);
-//    console.log('1');
-//    return answer;
-//}
-
-productController.prototype.findOne = function(sname, callback)
+productController.prototype.findOneByName = function(sname, callback)
 {
     var me = this;
     var s;
@@ -28,6 +18,47 @@ productController.prototype.findOne = function(sname, callback)
         if(name){
             console.log('identity');
             s = name;
+        }
+        else{
+            console.log('non identity');
+            s = 'non identity';
+        }
+        callback(s);
+    });
+}
+
+productController.prototype.findByCategory = function(scat, callback)
+{
+    var me = this;
+    var s;
+    me.pmodel.find(null, {category: scat}, function(err, cat){
+        if(err){
+            console.log(err);
+        }
+        if(cat){
+            console.log('identity');
+            s = cat;
+        }
+        else{
+            console.log('non identity');
+            s = 'non identity';
+        }
+        callback(s);
+    });
+}
+
+productController.prototype.findOneByID = function(id, callback)
+{
+    var me = this;
+    var s;
+    console.log(id);
+    me.pmodel.findOne({_id: id}, function(err, id){
+        if(err){
+            console.log(err);
+        }
+        if(id){
+            console.log('identity');
+            s = id;
         }
         else{
             console.log('non identity');
@@ -60,7 +91,7 @@ productController.prototype.findAll = function(callback)
 productController.prototype.createRecord = function(newProduct)
 {
     var me = this;
-    var s = me.pmodel.findOne({name: newProduct.name}, function(err, name){
+    var s = me.pmodel.findOneByName({name: newProduct.name}, function(err, name){
         if(err){
             console.log(err);
         }

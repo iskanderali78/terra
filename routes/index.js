@@ -1,12 +1,11 @@
 ﻿var express = require('express');
 var router = express.Router();
 
-//var controller = require('../controllers/product');
+var controller = require('../controllers/product');
+var model = require('../models/productModel');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  var controller = require('../controllers/product');
-  var model = require('../models/productModel');
   var curCont = new controller(model);
   //var testModel = new model({
   //  name: 'Плитка для стен Acoustic Maiz 31.6x59.2',
@@ -17,16 +16,24 @@ router.get('/', function(req, res, next) {
   //});
   //curCont.createRecord(testModel);
   curCont.findAll(function(result){
-      var catalogTable = require('../lib/tableAllViewHTML');
-      var catalog = new catalogTable(result);
-      var html = catalog.transformToHTML();
-      console.log(html);
-      var context = {
-          ready: "Каталог товаров",
-          table: html
-      };
-      //res.render('index', { title: 'Терра' , tabl: html});
-      res.render('index.html', context);
+      if(result != 'non identity'){
+        var catalogTable = require('../lib/tableAllViewHTML');
+        var catalog = new catalogTable(result);
+        var html = catalog.transformToHTML();
+        var context = {
+            ready: "Каталог товаров",
+            table: html
+        };
+        res.render('index.html', context);
+      }
+      else{
+          html = "<p>В базе данных отсутствуют записи!</p>";
+          var context = {
+              ready: "Ошибка!",
+              table: html
+          };
+          res.render('index.html', context);
+      }
   });
 });
 
@@ -34,10 +41,14 @@ router.get('/catalog/*', function(req, res, next) {
 
     var arr = req.url.split('/');
     var addr = arr[2];
-    var context = {
-        table: addr
-    };
-    res.render('information.html',context);
+    var curCont = new controller(model);
+    curCont.findOneByID(addr, function(result){
+        console.log(result);
+        var context = {
+            table: addr
+        };
+        res.render('information.html',context);
+    });
 });
 
 module.exports = router;

@@ -3,13 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <title>Сайт компании Терра</title>
+    <link rel="stylesheet" href="/stylesheets/style.css">
     <script>
+
         function information(image)
         {
             var arr = image.split('.');
             var readdr = "/catalog/" + arr[0];
             window.location.href = readdr;
         }
+
+        function change(){
+//            alert(n);
+//            var category0 = document.getElementById('category0');
+//            var category1 = document.getElementById('category1');
+//            switch(n)
+//            {
+//                case 0:
+//                    category0.removeAttribute('hidden');
+//                    category1.hidden=true;
+//                    break;
+
+//                case 1:
+//                    category0.hidden=true;
+//                    category1.removeAttribute('hidden');
+//                    break;
+//            }
+//            var newCell = document.createElement
+//            obj.visible = true;
+        }
+
+        function createFilter(obj)
+        {
+            var arr = document.getElementsByTagName("TD");
+            for(var i = 0; i < arr.length; i++){
+                var cl = arr[i].getAttribute('class');
+                if((cl == 'category') && arr[i].innerHTML == obj){
+                    if(arr[i].innerHTML == obj){
+                        var cat = document.getElementById('checkCategory');
+                        cat.removeAttribute('hidden');
+                        cat.checked = true;
+                        cat.setAttribute('checked','checked');
+                    }
+                    else{
+                        arr[i].setAttribute("hidden","true");
+                    }
+                }
+            }
+        }
+
+        function filterChange(obj)
+        {
+            obj.setAttribute('hidden','true');
+            removeFilter();
+        }
+
+        function removeFilter(){
+            var arr = document.getElementsByTagName("TD");
+            for(var i = 0; i < arr.length; i++){
+                var cl = arr[i].getAttribute('class');
+                if(cl == 'category'){
+                    arr[i].removeAttribute("hidden");
+                }
+            }
+        }
+
     </script>
 </head>
 <body>
