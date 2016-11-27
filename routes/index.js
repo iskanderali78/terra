@@ -43,12 +43,49 @@ router.get('/catalog/*', function(req, res, next) {
     var addr = arr[2];
     var curCont = new controller(model);
     curCont.findOneByID(addr, function(result){
-        console.log(result);
+        var infoTable = require('../lib/tableInfoViewHTML');
+        var info = new infoTable(result);
+        var html = info.transformToHTML();
         var context = {
-            table: addr
+            table: html
         };
         res.render('information.html',context);
     });
+});
+
+router.get('/edit/*', function(req, res, next) {
+
+    var arr = req.url.split('/');
+    var addr = arr[2];
+    //console.log("addr " + addr);
+    var curCont = new controller(model);
+    curCont.findOneByID(addr, function(result){
+        var editForm = require('../lib/formEdit');
+        var edit = new editForm(result, addr);
+        var html = edit.transformToHTML();
+        var context = {
+            form: html
+        };
+        res.render('edit.html',context);
+    });
+});
+
+router.get('/update/*', function(req, res, next) {
+
+    console.log(req);
+    //var arr = req.url.split('/');
+    //var addr = arr[2];
+    ////console.log("addr " + addr);
+    //var curCont = new controller(model);
+    //curCont.findOneByID(addr, function(result){
+    //    var editForm = require('../lib/formEdit');
+    //    var edit = new editForm(result, addr);
+    //    var html = edit.transformToHTML();
+    //    var context = {
+    //        form: html
+    //    };
+    //    res.render('edit.html',context);
+    //});
 });
 
 module.exports = router;

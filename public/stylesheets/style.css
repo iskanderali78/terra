@@ -3,14 +3,27 @@ body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
-table {
-  font-size: 18px;
-}
-
-select {
+table, select, input, form, button {
   font-size: 18px;
 }
 
 a {
   color: #00B7FF;
+}
+
+.field {
+  clear:both;
+  text-align:right;
+  line-height:25px;
+  width: 100%;
+}
+.main {
+  float:left;
+  /*margin: 0px auto;*/
+  /*text-align: left;*/
+}
+
+label {
+  float:left;
+  padding-right:10px;
 }

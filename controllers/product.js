@@ -51,7 +51,6 @@ productController.prototype.findOneByID = function(id, callback)
 {
     var me = this;
     var s;
-    console.log(id);
     me.pmodel.findOne({_id: id}, function(err, id){
         if(err){
             console.log(err);
@@ -85,6 +84,20 @@ productController.prototype.findAll = function(callback)
             s = 'non identity';
         }
         callback(s);
+    });
+}
+
+productController.prototype.editRecord = function(id, data, callback)
+{
+    var me = this;
+    me.pmodel.findOneAndUpdate({_id: id},
+        data,
+        {},
+        function(err){
+        if(err){
+            console.log(err);
+        }
+        callback();
     });
 }
 
