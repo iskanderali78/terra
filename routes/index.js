@@ -70,22 +70,26 @@ router.get('/edit/*', function(req, res, next) {
     });
 });
 
-router.get('/update/*', function(req, res, next) {
-
-    console.log(req);
-    //var arr = req.url.split('/');
-    //var addr = arr[2];
-    ////console.log("addr " + addr);
-    //var curCont = new controller(model);
-    //curCont.findOneByID(addr, function(result){
-    //    var editForm = require('../lib/formEdit');
-    //    var edit = new editForm(result, addr);
-    //    var html = edit.transformToHTML();
-    //    var context = {
-    //        form: html
-    //    };
-    //    res.render('edit.html',context);
-    //});
+router.post('/update/*', function(req, res, next) {
+    var arr = req.url.split('/');
+    var addr = arr[2];
+    console.log("addr " + addr);
+    var data = {
+        name: req.body.name,
+        category: req.body.category,
+        status: req.body.status,
+        price: req.body.price,
+        image: req.body.image,
+        description: req.body.description,
+        producer: req.body.producer,
+        size: req.body.size,
+        weight: req.body.weight,
+        country: req.body.country
+    }
+    var curCont = new controller(model);
+    curCont.editRecord(addr, data, function(result){
+        res.sendStatus(304);
+    });
 });
 
 module.exports = router;
