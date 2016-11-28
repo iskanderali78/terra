@@ -5,19 +5,17 @@
     <title>Сайт компании Терра</title>
     <link rel="stylesheet" href="/stylesheets/style.css">
     <script>
-//        function editData(){
-//            var addr = window.location.href;
-//            var arr = addr.split('/');
-//            var id = arr[arr.length - 1];
-//            var readdr = "/edit/" + id;
-//            window.location.href = readdr;
-//        }
-
         function deleteRecord(){
             var addr = window.location.href;
             var arr = addr.split('/');
             var id = arr[arr.length - 1];
-            var readdr = "/delete/" + id;
+            var readdr;
+            if(id != 'new'){
+                readdr = "/delete/" + id;
+            }
+            else{
+                readdr = "/";
+            }
             window.location.href = readdr;
         }
     </script>
