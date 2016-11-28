@@ -13,6 +13,12 @@
             window.location.href = readdr;
         }
 
+        function newRecord()
+        {
+            var readdr = "/new";
+            window.location.href = readdr;
+        }
+
         function createFilter(obj)
         {
             var arr = document.getElementsByTagName("TD");
@@ -53,6 +59,11 @@
 <body>
 <h1 align="center">Добро пожаловать на сайт компании "Терра"!</h1>
 <h1 align="center">{{ready}}</h1>
+<div>
 {{{table}}}
+</div>
+<div>
+    <button onclick="newRecord()">Добавить новую запись</button>
+</div>
 </body>
 </html>

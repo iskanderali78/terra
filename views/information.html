@@ -12,6 +12,11 @@
             var readdr = "/edit/" + id;
             window.location.href = readdr;
         }
+
+        function returnToCatalog(){
+            var readdr = "/";
+            window.location.href = readdr;
+        }
     </script>
 </head>
 <body>
@@ -19,5 +24,6 @@
 {{{table}}}
 <p>&nbsp;</p>
 <button onclick="editData()">Редактировать</button>
+<button onclick="returnToCatalog()">Вернуться к каталогу</button>
 </body>
 </html>

@@ -3,7 +3,7 @@ body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
-table, select, input, form, button {
+table, select, input, form, button, p {
   font-size: 18px;
 }
 
@@ -19,11 +19,13 @@ a {
 }
 .main {
   float:left;
-  /*margin: 0px auto;*/
-  /*text-align: left;*/
 }
 
 label {
   float:left;
   padding-right:10px;
+}
+
+select {
+  width: 87%;
 }

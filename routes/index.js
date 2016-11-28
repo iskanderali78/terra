@@ -3,8 +3,8 @@ var router = express.Router();
 
 var controller = require('../controllers/product');
 var model = require('../models/productModel');
+var dialog = require('dialog');
 
-/* GET home page. */
 router.get('/', function(req, res, next) {
   var curCont = new controller(model);
   //var testModel = new model({
@@ -16,6 +16,7 @@ router.get('/', function(req, res, next) {
   //});
   //curCont.createRecord(testModel);
   curCont.findAll(function(result){
+      //console.log(result);
       if(result != 'non identity'){
         var catalogTable = require('../lib/tableAllViewHTML');
         var catalog = new catalogTable(result);
@@ -35,6 +36,51 @@ router.get('/', function(req, res, next) {
           res.render('index.html', context);
       }
   });
+});
+
+router.get('/new', function(req,res,next){
+
+    var readdr = "/add";
+    var data = {
+        name: "",
+        category: "",
+        status: "",
+        price: 0,
+        image: "",
+        description: "",
+        producer: "",
+        size: "",
+        weight: 0,
+        country: ""
+    };
+    var editForm = require('../lib/formEdit');
+    var edit = new editForm(data, readdr);
+    var html = edit.transformToHTML();
+    var context = {
+        form: html
+    };
+    res.render('edit.html',context);
+});
+
+router.post('/add', function(req, res, next) {
+    var data = req.body;
+    var curCont = new controller(model);
+    var testModel = new model(data);
+    curCont.createRecord(testModel, function(result){
+        if(result == 'identity'){
+            var context = {
+                error: 'Ошибка сохранения записи! В базе данных уже присутствует товар с таким названием!'
+            }
+            res.render('error.html',context);
+        }
+        if(result == 'error'){
+
+        }
+        else{
+            var readdr = "/edit/" + result;
+            res.redirect(readdr);
+        }
+    });
 });
 
 router.get('/catalog/*', function(req, res, next) {
@@ -57,11 +103,13 @@ router.get('/edit/*', function(req, res, next) {
 
     var arr = req.url.split('/');
     var addr = arr[2];
-    //console.log("addr " + addr);
+    var readdr = "/update/" + addr;
+    console.log("addr " + addr);
     var curCont = new controller(model);
     curCont.findOneByID(addr, function(result){
         var editForm = require('../lib/formEdit');
-        var edit = new editForm(result, addr);
+        //console.log(result);
+        var edit = new editForm(result, readdr);
         var html = edit.transformToHTML();
         var context = {
             form: html
@@ -72,8 +120,10 @@ router.get('/edit/*', function(req, res, next) {
 
 router.post('/update/*', function(req, res, next) {
     var arr = req.url.split('/');
+    console.log("arr " + arr);
     var addr = arr[2];
     console.log("addr " + addr);
+    console.log("req.body.name " + req.body.name);
     var data = {
         name: req.body.name,
         category: req.body.category,
@@ -86,9 +136,23 @@ router.post('/update/*', function(req, res, next) {
         weight: req.body.weight,
         country: req.body.country
     }
+    console.log("data " + data);
     var curCont = new controller(model);
-    curCont.editRecord(addr, data, function(result){
-        res.sendStatus(304);
+    curCont.editRecord(addr, data, function(){
+        var readdr = "/catalog/" + addr;
+        res.redirect(readdr);
+        //res.sendStatus(304);
+    });
+});
+
+router.get('/delete/*', function(req, res, next) {
+
+    var arr = req.url.split('/');
+    var addr = arr[2];
+    console.log(addr);
+    var curCont = new controller(model);
+    curCont.deleteRecord(addr, function(result){
+        res.redirect('/');
     });
 });
 

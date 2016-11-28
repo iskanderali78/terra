@@ -14,6 +14,7 @@ productController.prototype.findOneByName = function(sname, callback)
     me.pmodel.findOne({name: sname}, function(err, name){
         if(err){
             console.log(err);
+            s = 'error';
         }
         if(name){
             console.log('identity');
@@ -54,6 +55,7 @@ productController.prototype.findOneByID = function(id, callback)
     me.pmodel.findOne({_id: id}, function(err, id){
         if(err){
             console.log(err);
+            s = 'error';
         }
         if(id){
             console.log('identity');
@@ -101,32 +103,56 @@ productController.prototype.editRecord = function(id, data, callback)
     });
 }
 
-productController.prototype.createRecord = function(newProduct)
+productController.prototype.createRecord = function(newProduct, callback)
 {
     var me = this;
-    var s = me.pmodel.findOneByName({name: newProduct.name}, function(err, name){
-        if(err){
-            console.log(err);
-        }
-        if(name){
-            console.log(name);
+    me.findOneByName(newProduct.name,function(result){
+        if(result != 'error' && result != 'non identity'){
+            callback('identity');
         }
         else{
-            console.log('recording');
-            newProduct.save(function (err, product, numberAffected){
-                if(err){
-                    console.log(err);
-                }
-                if(numberAffected === 1){
-                    console.log('Success!');
-                }
-                else{
+            if(result == 'non identity')
+            {
+                newProduct.save(function (err, product, numberAffected){
+                    console.log('product creating: ' + product);
+                    console.log('numberAffected: ' + numberAffected);
+                    if(err){
+                         callback('error');
+                    }
+                    if(numberAffected === 1){
+                        callback(product._id);
+                    }
+                    else{
 
+                    }
+                });
+            }
+            else
+            {
+                callback('error');
+            }
+        }
+    });
+}
+
+productController.prototype.deleteRecord = function(id, callback)
+{
+    var me = this;
+    me.findOneByID(id, function(result){
+        if(result != 'error' && result != 'non identity'){
+            me.pmodel.remove({_id: id},function(err, result){
+                if(err){
+                    callback('error');
+                }
+                if(result){
+                    callback('success');
                 }
             });
         }
+        else{
+            callback('error');
+        }
     });
-    console.log(s.name);
 }
 
 module.exports = productController;
