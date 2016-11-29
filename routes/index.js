@@ -63,9 +63,10 @@ router.post('/add', function(req, res, next) {
             var context = {
                 error: 'Ошибка сохранения записи! В базе данных уже присутствует товар с таким названием!'
             }
+//            req.flash('info','Ошибка сохранения записи! В базе данных уже присутствует товар с таким названием!');
             res.render('error.html',context);
         }
-        if(result == 'error'){
+        else if(result == 'error'){
             console.log('router.error');
         }
         else{
