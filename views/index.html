@@ -5,7 +5,6 @@
     <title>Сайт компании Терра</title>
     <link rel="stylesheet" href="/stylesheets/style.css">
     <script>
-
         function information(image)
         {
             var arr = image.split('.');
@@ -24,7 +23,7 @@
             var arr = document.getElementsByTagName("TD");
             for(var i = 0; i < arr.length; i++){
                 var cl = arr[i].getAttribute('class');
-                if((cl == 'category') && arr[i].innerHTML == obj){
+                if((cl == 'category')){
                     if(arr[i].innerHTML == obj){
                         var cat = document.getElementById('checkCategory');
                         cat.removeAttribute('hidden');
@@ -32,10 +31,67 @@
                         cat.setAttribute('checked','checked');
                     }
                     else{
-                        arr[i].setAttribute("hidden","true");
+                        arr[i].parentNode.setAttribute("hidden","true");
                     }
                 }
             }
+        }
+
+        function sortByStatus(){
+            //Схема сортировки. Возможны варианты
+            var scheme = ["Новинка","Специальное предложение","Акция"];
+            var rows = document.getElementById('catalog').rows;
+            var arr0 = [];
+            var arr1 = [];
+            var arr2 = [];
+            var catalog = document.getElementById('catalog');
+            var tbody0 = catalog.children[1];
+            var tbody1 = tbody0.cloneNode();
+            var rows = document.getElementById('catalog').rows;
+            for(var i = 1; i < rows.length; i++){
+                if(rows[i].children[2].innerHTML == scheme[0]){
+                    arr0.push(rows[i].cloneNode(true));
+                }
+                if(rows[i].children[2].innerHTML == scheme[1]){
+                    arr1.push(rows[i].cloneNode(true));
+                }
+                if(rows[i].children[2].innerHTML == scheme[2]){
+                    arr2.push(rows[i].cloneNode(true));
+                }
+            }
+            for(var i = 0; i < arr0.length; i++){
+                tbody1.appendChild(arr0[i]);
+            }
+            for(var i = 0; i < arr1.length; i++){
+                tbody1.appendChild(arr1[i]);
+            }
+            for(var i = 0; i < arr2.length; i++){
+                tbody1.appendChild(arr2[i]);
+            }
+            //Сброс исходного тела таблицы, на случай, если придется его вернуть
+            if(tbody1.getAttribute("data-toggle") == null){
+                tbody1.setAttribute("data-toggle",encodeURI(tbody0.outerHTML));
+            }
+            catalog.replaceChild(tbody1,tbody0);
+        }
+
+        function sortByPrice(obj){
+            if(obj.getAttribute('class') == 'up'){
+                obj.setAttribute('class','down');
+            }
+            else if(obj.getAttribute('class') == 'down'){
+                obj.removeAttribute('class');
+            }
+            else{
+                obj.setAttribute('class','up');
+            }
+            var rows = document.getElementById('catalog').rows;
+            var arr0 = [];
+            for(var i = 0; i < rows.length; i++){
+
+            }
+            var stat = rows[0].innerHTML;
+            alert(stat);
         }
 
         function filterChange(obj)
@@ -49,7 +105,7 @@
             for(var i = 0; i < arr.length; i++){
                 var cl = arr[i].getAttribute('class');
                 if(cl == 'category'){
-                    arr[i].removeAttribute("hidden");
+                    arr[i].parentNode.removeAttribute("hidden");
                 }
             }
         }
@@ -57,7 +113,6 @@
     </script>
 </head>
 <body>
-<h1 align="center">Добро пожаловать на сайт компании "Терра"!</h1>
 <h1 align="center">{{ready}}</h1>
 <div>
 {{{table}}}

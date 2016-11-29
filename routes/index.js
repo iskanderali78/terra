@@ -7,14 +7,6 @@ var dialog = require('dialog');
 
 router.get('/', function(req, res, next) {
   var curCont = new controller(model);
-  //var testModel = new model({
-  //  name: 'Плитка для стен Acoustic Maiz 31.6x59.2',
-  //  category: 'Фоновая плита',
-  //  status: 'Не имеет',
-  //  price: 2781.07,
-  //  image: '00001.jpg'
-  //});
-  //curCont.createRecord(testModel);
   curCont.findAll(function(result){
       //console.log(result);
       if(result != 'non identity'){
