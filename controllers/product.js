@@ -123,13 +123,13 @@ productController.prototype.createRecord = function(newProduct, callback)
                         callback(product._id);
                     }
                     else{
-
+                        callback('else');
                     }
                 });
             }
             else
             {
-                callback('error');
+                callback('FindByNameError');
             }
         }
     });

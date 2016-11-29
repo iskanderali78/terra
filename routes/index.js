@@ -74,7 +74,7 @@ router.post('/add', function(req, res, next) {
             res.render('error.html',context);
         }
         if(result == 'error'){
-
+            console.log('router.error');
         }
         else{
             var readdr = "/edit/" + result;
