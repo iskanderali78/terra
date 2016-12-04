@@ -4,20 +4,9 @@
     <meta charset="UTF-8">
     <title>Сайт компании Терра</title>
     <link rel="stylesheet" href="/stylesheets/style.css">
+    <script src="/javascripts/validateFormFields.js"></script>
     <script>
-        function deleteRecord(){
-            var addr = window.location.href;
-            var arr = addr.split('/');
-            var id = arr[arr.length - 1];
-            var readdr;
-            if(id != 'new'){
-                readdr = "/delete/" + id;
-            }
-            else{
-                readdr = "/";
-            }
-            window.location.href = readdr;
-        }
+
     </script>
 </head>
 <body>

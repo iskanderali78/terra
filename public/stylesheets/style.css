@@ -21,11 +21,17 @@ a {
   float:left;
 }
 
-label {
-  float:left;
-  padding-right:10px;
+label.left {
+  /*float:left;*/
+  /*padding-right:10px;*/
+  width: 20%;
+}
+
+label.error {
+  width: 30%;
+  color: red;
 }
 
 select {
-  width: 87%;
+  width: 100%;
 }

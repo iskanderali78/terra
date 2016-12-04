@@ -92,14 +92,19 @@ productController.prototype.findAll = function(callback)
 productController.prototype.editRecord = function(id, data, callback)
 {
     var me = this;
+    var res;
     me.pmodel.findOneAndUpdate({_id: id},
         data,
         {},
-        function(err){
+        function(err, result){
         if(err){
-            console.log(err);
+            res = 'errorUpdate';
         }
-        callback();
+        else{
+            console.log('result:', result);
+            res = 'successUpdate';
+        }
+        callback(res);
     });
 }
 
@@ -113,23 +118,18 @@ productController.prototype.createRecord = function(newProduct, callback)
         else{
             if(result == 'non identity')
             {
-                newProduct.save(function (err, product, numberAffected){
-                    console.log('product creating: ' + product);
-                    console.log('numberAffected: ' + numberAffected);
+                newProduct.save(function (err, product){
                     if(err){
-                         callback('error');
-                    }
-                    if(numberAffected === 1){
-                        callback(product._id);
+                         callback('errorAdd');
                     }
                     else{
-                        callback('else');
+                        callback('successAdd/' + product._id);
                     }
                 });
             }
             else
             {
-                callback('FindByNameError');
+                callback('errorAdd');
             }
         }
     });

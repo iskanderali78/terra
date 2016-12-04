@@ -3,7 +3,6 @@ var router = express.Router();
 
 var controller = require('../controllers/product');
 var model = require('../models/productModel');
-var dialog = require('dialog');
 
 router.get('/', function(req, res, next) {
   var curCont = new controller(model);
@@ -58,20 +57,23 @@ router.post('/add', function(req, res, next) {
     var data = req.body;
     var curCont = new controller(model);
     var testModel = new model(data);
+
     curCont.createRecord(testModel, function(result){
         if(result == 'identity'){
-            var context = {
-                error: 'Ошибка сохранения записи! В базе данных уже присутствует товар с таким названием!'
-            }
-//            req.flash('info','Ошибка сохранения записи! В базе данных уже присутствует товар с таким названием!');
-            res.render('error.html',context);
+            //var context = {
+            //    error: 'Ошибка сохранения записи! В базе данных уже присутствует товар с таким названием!'
+            //}
+            //
+            //res.render('error.html',context);
+            res.send('identity');
         }
         else if(result == 'error'){
-            console.log('router.error');
+            res.send('errorAdd');
         }
         else{
-            var readdr = "/edit/" + result;
-            res.redirect(readdr);
+            //var readdr = "/edit/" + result;
+            //res.redirect(readdr);
+            res.send(result);
         }
     });
 });
@@ -131,10 +133,13 @@ router.post('/update/*', function(req, res, next) {
     }
     console.log("data " + data);
     var curCont = new controller(model);
-    curCont.editRecord(addr, data, function(){
-        var readdr = "/catalog/" + addr;
-        res.redirect(readdr);
+    curCont.editRecord(addr, data, function(result){
+        //var readdr = "/catalog/" + addr;
+        //res.redirect(readdr);
         //res.sendStatus(304);
+        console.log('result: ' + result);
+        //res.json(result);
+        res.send(result);
     });
 });
 
@@ -144,7 +149,7 @@ router.get('/delete/*', function(req, res, next) {
     var addr = arr[2];
     console.log(addr);
     var curCont = new controller(model);
-    curCont.deleteRecord(addr, function(result){
+    curCont.deleteRecord(addr, function(){
         res.redirect('/');
     });
 });
